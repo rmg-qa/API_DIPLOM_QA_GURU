@@ -1,0 +1,1 @@
+# Diplom_QA_GURU_API
