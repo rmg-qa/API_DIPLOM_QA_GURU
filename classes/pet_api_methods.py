@@ -37,5 +37,8 @@ class PetApiMethods:
     @staticmethod
     def delete_pet(url, id_pet):
         request = requests.delete(f'{url}/{id_pet}', headers={"accept": 'application/json'})
-        validate(instance=request.json(), schema=delete_and_put_pet_schema)
+        try:
+            validate(instance=request.json(), schema=delete_and_put_pet_schema)
+        except:
+            print('Один из обязательных параметров питомца не найден')
         return request

@@ -4,7 +4,7 @@ from allure_commons.types import AttachmentType
 import allure
 
 
-class LoggingMethods:
+class AllureLoggingMethods:
 
     @staticmethod
     def logging_request_json(request_body, name):
@@ -22,7 +22,7 @@ class LoggingMethods:
                       extension="json")
 
 
-class AllurePet:
+class AllurePetLoggingMethods:
 
     @staticmethod
     def logging_delete_pet(id_pet, result, name):
