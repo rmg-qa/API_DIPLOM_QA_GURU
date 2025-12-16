@@ -2,6 +2,7 @@ from selene import browser
 import pytest
 import allure
 
+
 @allure.title('Задаем базовый URL')
 @pytest.fixture(scope='function')
 def url_api():

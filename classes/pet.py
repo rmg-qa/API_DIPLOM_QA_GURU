@@ -4,7 +4,7 @@ from schemas.schemas_requests import create_pet, update_pet
 from schemas.schemas_response import response_create_pet, get_pet, delete_and_put_pet_schema
 
 
-class Pet:
+class PetApiMethods:
     @staticmethod
     def get_pets(url, params):
         request = requests.get(f'{url}', params=params)
