@@ -23,6 +23,7 @@ def test_get_pets_by_status(status):
     AllureLoggingMethods.logging_response_json(result=response, name="Response body")
     helpers.log_2_console(response, params)
     assert response.status_code == 200
+    assert response.json()[0]['status'] == status
 
 
 @allure.story('Получение питомца по его id')
@@ -35,7 +36,7 @@ def test_get_pet_by_id(generate_payload):
         helpers.log_2_console(response)
         id_new_pet = response.json()['id']
         AllureLoggingMethods.logging_response_json(response, name="Response")
-    with allure.step('Добавляем в get-запрос id созданного питомца'):
+    with allure.step('Получаем созданного питомца по его id'):
         response = pet.get_pet_id(url=base_url, id_pet=id_new_pet)
         helpers.log_2_console(response)
         AllureLoggingMethods.logging_response_json(response, name="Response")
@@ -53,18 +54,21 @@ def test_create_pet(generate_payload):
         helpers.log_2_console(response_create_pet)
         AllureLoggingMethods.logging_response_json(response_create_pet, name="Response")
         pet_name = response_create_pet.json()['name']  ## получаем имя питомца и потом его ассертим
-    with allure.step('Получаем id созданного питомца и передаем его в get-запроc.'):
+    with allure.step('Получаем созданного питомца по его id'):
         id_new_pet = response_create_pet.json()['id']
         response_getting_a_created_pet = pet.get_pet_id(url=base_url, id_pet=id_new_pet)
         helpers.log_2_console(response_getting_a_created_pet)
         AllureLoggingMethods.logging_response_json(response_getting_a_created_pet, name="Response")
-    with allure.step('Получаем имя питомца в get-запросе.'):
+    with allure.step('Получаем имя созданного питомца'):
         upd_pet_name = response_getting_a_created_pet.json()['name']
+    assert response_create_pet.status_code == 200
+    assert response_getting_a_created_pet.status_code == 200
     assert upd_pet_name == pet_name
     with allure.step('Удаляем созданного питомца'):
         delete_created_pet = pet.delete_pet(url=base_url, id_pet=id_new_pet)
         helpers.log_2_console(delete_created_pet)
         AllurePetLoggingMethods.logging_delete_pet(id_pet=id_new_pet, result=delete_created_pet, name='Response')
+    assert delete_created_pet.status_code == 200
 
 
 @allure.story('Изменение параметров питомца')
@@ -93,6 +97,7 @@ def test_update_pet(generate_payload):
         delete_created_pet = pet.delete_pet(url=base_url, id_pet=id_new_pet)
         helpers.log_2_console(delete_created_pet)
         AllurePetLoggingMethods.logging_delete_pet(id_pet=id_new_pet, result=delete_created_pet, name='Response')
+        assert delete_created_pet.status_code == 200
 
 
 @allure.story('Удаление питомца')
