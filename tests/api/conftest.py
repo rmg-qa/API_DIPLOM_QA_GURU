@@ -8,9 +8,9 @@ import faker
 def generate_payload():
     fake = faker.Faker()
     payload = {
-        "id": fake.random_int(1, 5),
+        "id": fake.random_int(2, 10),
         "category": {
-            "id": fake.random_int(1, 5),
+            "id": fake.random_int(2, 10),
             "name": fake.name()[0:6]
         },
         "name": fake.name()[0:6],
